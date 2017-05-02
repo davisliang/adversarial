@@ -27,23 +27,19 @@ def create_model(x,weights,biases,dropout):
     out = outputs(fc2,weights['out_weights'],biases['out_biases'])
     return out
 
-def initialize_weights():
+def initialize_weights(param_dict):
 
     # Store layers weight & bias
-    weights = {
-        'conv1_weights': tf.Variable(tf.random_normal([5, 5, 3, 64])),
-        'conv2_weights': tf.Variable(tf.random_normal([5, 5, 64, 64])),
-        'fc2_weights': tf.Variable(tf.random_normal([384,192])),
-        'out_weights': tf.Variable(tf.random_normal([192, n_classes]))
-    }
-
-    biases = {
-        'conv1_biases': tf.Variable(tf.random_normal([64])),
-        'conv2_biases': tf.Variable(tf.random_normal([64])),
-        'fc2_biases': tf.Variable(tf.random_normal([192])),
-        'out_biases': tf.Variable(tf.random_normal([n_classes]))
-    }
+    weights = {}
+    biases = {}
     
+    #use the weights and biases in the for loops
+    for key in dictionary:
+        if(key[-7:] == 'weights'):
+            weights[key] = tf.Variable(tf.random_normal(param_dict[key]))
+        if(key[-6:] == 'biases'):
+            weights[key] = tf.Variable(tf.random_normal(param_dict[key]))
+
     return weights, biases
 
 
@@ -112,17 +108,15 @@ def run_model():
                                               y: y_test,
                                               keep_prob: 1.}))   
 
-height = 32
-width = 32
-channels = 3
-n_classes = 10
-batch_size = 1024
-dropout = 1.0
-learning_rate = 0.00001
-display_step = 10
-epochs = 500
-regularization = 0.00
-
-
-setup = tf_builder.setup('params.csv')
+param_dict = tf_builder.setup('params.csv')
+height = param_dict['height']
+width = param_dict['width']
+channels = param_dict['channels']
+n_classes = param_dict['n_classes']
+batch_size = param_dict['batch_size']
+dropout = param_dict['dropout']
+learning_rate = param_dict['learning_rate']
+display_step = param_dict['display_step']
+epochs = param_dict['epochs']
+regularization = param_dict['regularization']
 run_model()
