@@ -51,8 +51,16 @@ def output(inputs,weight,bias):
     return out
 
 """
-setup network given parameters file
+return dictionary of params given params.csv file
 """
 def setup(params_file):
-	with open(params_file,"rb") as csvfile:
-		reader = csv.reader(csvfile, delimiter=' ')
+	file = open(expanduser(params_file))
+	csvfile = csv.reader(file)
+
+	dictionary = {}
+	for row in csvfile:
+	    key = row[0]
+	    value = row[1:]
+	    value = [float(string) for string in value]
+	    dictionary[key]=value
+	return dictionary
