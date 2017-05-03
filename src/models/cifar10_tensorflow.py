@@ -1,75 +1,73 @@
 import tensorflow as tf
 import numpy
-from numpy import random
 from scipy.misc import imresize
 import scipy
-#from keras.datasets import cifar10
 import cPickle as pickle
 from os.path import expanduser
 import sys
-from os.path import expanduser
-sys.path.insert(0, expanduser('~/adversary/utils'))
+sys.path.insert(0, expanduser('~/adversary/src/utils'))
 import tf_builder
 import cifar10_load
 import tf_utils
 
+"""
+building the computational graph of the model
+"""
 def create_model(x,weights,biases,dropout):
     x = tf.reshape(x, shape=[-1,32,32,3])
     
     conv1 = tf_builder.conv2d(x,weights['conv1_weights'],biases['conv1_biases'])
-    conv1 = tf_builder.maxpool2d(conv1,mp_size=3,stride=2)
-    conv2 = tf_builder.conv2d(conv1, weights['conv2_weights'], biases['conv2_biases'])
-    conv2 = tf_builder.maxpool2d(conv2, mp_size=3,stride=2)
+    pool1 = tf_builder.maxpool2d(conv1,mp_size=3,stride=2)
+    norm1 = tf.nn.lrn(pool1, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75,name='norm1')
 
-    flattened_conv, weights['fc1_weights'], biases['fc1_biases'] = flatten(conv2,384)
-    fc1 = fully_connected(flattened_conv, weights['fc1_weights'],biases['fc1_biases'],dropout=1.0)
-    fc2 = fully_connected(fc1, weights['fc2_weights'],biases['fc2_biases'],dropout=1.0)
-    out = outputs(fc2,weights['out_weights'],biases['out_biases'])
+
+    conv2 = tf_builder.conv2d(norm1, weights['conv2_weights'], biases['conv2_biases'])
+    norm2 = tf.nn.lrn(conv2, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm2')
+    pool2 = tf_builder.maxpool2d(norm2, mp_size=3,stride=2)
+
+    flattened_conv, weights['fc1_weights'], biases['fc1_biases'] = tf_builder.flatten(pool2,int(param_dict['fc2_weights'][0]))
+    fc1 = tf_builder.fully_connected(flattened_conv, weights['fc1_weights'],biases['fc1_biases'],dropout=1.0)
+    fc2 = tf_builder.fully_connected(fc1, weights['fc2_weights'],biases['fc2_biases'],dropout=1.0)
+    out = tf_builder.output(fc2,weights['out_weights'],biases['out_biases'])
     return out
 
-def initialize_weights(param_dict):
+"""
+training and testing model
+"""
+def run_model(param_dict):
 
-    # Store layers weight & bias
-    weights = {}
-    biases = {}
-    
-    #use the weights and biases in the for loops
-    for key in dictionary:
-        if(key[-7:] == 'weights'):
-            weights[key] = tf.Variable(tf.random_normal(param_dict[key]))
-        if(key[-6:] == 'biases'):
-            weights[key] = tf.Variable(tf.random_normal(param_dict[key]))
+    #initializing parameters
+    weights, biases, height, width, channels, n_classes, batch_size, \
+        dropout, learning_rate, display_step, epochs, regularization = tf_builder.initialize_parameters(param_dict)
 
-    return weights, biases
-
-
-def run_model():
-    print "starting script"
+    #loading data
     (x_train_,y_train_), (x_test, y_test) = cifar10_load.load_cifar()
-    print "data loaded"
 
-    print 'creating model'
+    #creating input/output placeholders
     x = tf.placeholder(tf.float32, [None, height, width, channels])
     y = tf.placeholder(tf.float32, [None, n_classes])
     keep_prob = tf.placeholder(tf.float32)
 
-    weights, biases = initialize_weights()
+    #create model
     pred = create_model(x, weights, biases, keep_prob)
     softmax_pred = tf.nn.softmax(pred)
 
-    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+    #computing cost
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y,logits=pred))
 
-    for weight in weights.values():
-        cost = cost + regularization*tf.nn.l2_loss(weight)
+    #l2 regularization
+    #for weight in weights.values():
+    #    cost = cost + regularization*tf.nn.l2_loss(weight)
     
-    annealed_rate = tf.train.exponential_decay(learning_rate, tf.Variable(0, trainable=False), 100000, .96, staircase=True)
+    #training model
+    annealed_rate = tf.train.exponential_decay(learning_rate, tf.contrib.framework.get_or_create_global_step(), epochs*350/batch_size, 0.1, staircase=True)
     optimizer = tf.train.AdamOptimizer(annealed_rate).minimize(cost)
 
-    # Evaluate model
+    #evaluating model
     correct_pred = tf.equal(tf.argmax(tf.nn.softmax(pred), 1), tf.argmax(y, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
-    # Initializing the variables
+    #initializing the variables
     init = tf.global_variables_initializer()
 
     # Launch the graph
@@ -99,7 +97,7 @@ def run_model():
                     print("Iter " + str(step*batch_size) + ", Minibatch Loss= " + \
                           "{:.6f}".format(loss) + ", Training Accuracy= " + \
                           "{:.5f}".format(acc))
-                step += 1
+                step += 1 
             print("Optimization Finished!")
 
             # Calculate accuracy for 256 mnist test images
@@ -108,15 +106,5 @@ def run_model():
                                               y: y_test,
                                               keep_prob: 1.}))   
 
-param_dict = tf_builder.setup('params.csv')
-height = param_dict['height']
-width = param_dict['width']
-channels = param_dict['channels']
-n_classes = param_dict['n_classes']
-batch_size = param_dict['batch_size']
-dropout = param_dict['dropout']
-learning_rate = param_dict['learning_rate']
-display_step = param_dict['display_step']
-epochs = param_dict['epochs']
-regularization = param_dict['regularization']
-run_model()
+param_dict = tf_builder.setup('~/adversary/data/param.csv')
+run_model(param_dict)

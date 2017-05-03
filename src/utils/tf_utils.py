@@ -1,6 +1,8 @@
 """
 tensorflow data processing utilities
 """
+import numpy
+from numpy import random
 
 """
 shuffle data
