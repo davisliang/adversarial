@@ -32,7 +32,7 @@ def create_model(x,weights,biases,dropout):
     return out
 
 """
-training and testing model
+training and testing and saving model
 """
 def run_model(param_dict):
 
@@ -69,6 +69,9 @@ def run_model(param_dict):
 
     #initializing the variables
     init = tf.global_variables_initializer()
+    
+    # Add ops to save and restore all the variables.
+    saver = tf.train.Saver()
 
     # Launch the graph
     print 'training'
@@ -99,12 +102,71 @@ def run_model(param_dict):
                           "{:.5f}".format(acc))
                 step += 1 
             print("Optimization Finished!")
+            # Save the variables to disk.
+            save_path = saver.save(sess, "/tmp/model.ckpt")
+            print("Model saved in file: %s" % save_path)
+
 
             # Calculate accuracy for 256 mnist test images
             print("Testing Accuracy:", \
                 sess.run(accuracy, feed_dict={x: x_test,
                                               y: y_test,
-                                              keep_prob: 1.}))   
+                                              keep_prob: 1.}))
+
+"""
+loads model and uses it to generate adversarial images
+"""
+def generate_adv_img(param_dict):
+
+    #initializing parameters
+    weights, biases, height, width, channels, n_classes, batch_size, \
+        dropout, learning_rate, display_step, epochs, regularization = tf_builder.initialize_parameters(param_dict)
+
+    #loading data
+    (x_train_,y_train_), (x_test, y_test) = cifar10_load.load_cifar()
+
+    #creating input/output placeholders
+    x = tf.placeholder(tf.float32, [None, height, width, channels])
+    y = tf.placeholder(tf.float32, [None, n_classes])
+    keep_prob = tf.placeholder(tf.float32)
+
+    #create model
+    pred = create_model(x, weights, biases, keep_prob)
+    softmax_pred = tf.nn.softmax(pred)
+
+    #computing cost
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y,logits=pred))
+
+    #l2 regularization
+    #for weight in weights.values():
+    #    cost = cost + regularization*tf.nn.l2_loss(weight)
+    
+    #training model
+    annealed_rate = tf.train.exponential_decay(learning_rate, tf.contrib.framework.get_or_create_global_step(), epochs*350/batch_size, 0.1, staircase=True)
+    optimizer = tf.train.AdamOptimizer(annealed_rate).minimize(cost)
+
+    #evaluating model
+    correct_pred = tf.equal(tf.argmax(tf.nn.softmax(pred), 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+    #initializing the variables
+    init = tf.global_variables_initializer()
+    
+    # Add ops to save and restore all the variables.
+    saver = tf.train.Saver()
+
+    # Launch the graph
+    print 'training'
+    with tf.Session() as sess:
+        # Restore variables from disk.
+        saver.restore(sess, "/tmp/model.ckpt")
+        print("Model restored.")
+
+        sess.run(init)
+
+        
+        
+
 
 param_dict = tf_builder.setup('~/adversary/data/param.csv')
 run_model(param_dict)
