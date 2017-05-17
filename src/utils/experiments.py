@@ -20,6 +20,7 @@ import os
 import glob
 from numpy import random
 import matplotlib.pyplot as plt
+import re
 
 import sys
 sys.path.insert(0, expanduser('~/adversary/src/models'))
@@ -29,6 +30,25 @@ sys.path.insert(0, expanduser('~/TensorFlow-Tutorials'))
 import tf_builder
 import cifar10_load
 import tf_utils
+
+# Converets the text to an int if it is an number
+def atoi(text):
+	return int(text) if text.isdigit() else text
+
+# A method that can be passed into sort to allow files
+# with numbers in their names to be sorted as numbers
+# instead of characters. For eaxmple 1,2,10 instead of
+# 1,10,2.
+def natural_keys(text):
+    return [atoi(c) for c in re.split('(\d+)', text) ]
+
+# Lists all non hidden files in the given directory
+def listdir_ordered(path):
+    lst = os.listdir(path)
+    lst.sort(key=natural_keys)
+    for f in lst:
+        if not f.startswith('.'):
+            yield f
 
 def extractLabels(filename):
     labels = open(expanduser(filename));
@@ -40,13 +60,13 @@ def extractLabels(filename):
 def extractData(directoryname):
     
     # size of image dataset
-    num_images = len(glob.glob1(expanduser(directoryname),"*.JPEG"))
+    num_images = len(list(listdir_ordered(expanduser(directoryname))))
     # return numpy image array
     images = []
     images_names = []
     
     # for each image in directory, grab and crop and save to pickle
-    for imagefile in os.listdir(expanduser(directoryname)):
+    for imagefile in list(listdir_ordered(expanduser(directoryname))):
         if(imagefile[-4:] == 'JPEG' or imagefile[-4:] == 'jpeg'):
             image = Image.open(expanduser(directoryname + '/' + imagefile))
             if(image.mode == 'RGB'):
