@@ -8,8 +8,9 @@ import tensorflow as tf
 from PIL import Image
 import pickle
 import os
-import matplotlib.pyplot as plt
 import sys 
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
 sys.path.insert(0, expanduser('~/adversary/src/models'))
 sys.path.insert(0, expanduser('~/adversary/src/utils/Hvass_Lab'))
 import inception
@@ -24,9 +25,23 @@ def test_on_adv_set():
     images_uni, labels_uni = pickle.load(
                 open( expanduser("~/adversary/data/universal.p"), "rb"))
 
-    pred = inception.process_images(fn=model.classify, images=images_control)
+    print (images_uni.shape)
+    print (labels_uni[:10])
 
-    print (pred.shape)
+    pred = inception.process_images(fn=model.classify, images=images_uni)
+    
+    #picks the category with the highest score
+    labels_true = numpy.argmax(labels_uni, axis=1)
+    labels_pred = numpy.argmax(pred, axis=1)
+
+    print (labels_pred[:10])
+    
+    conf_matrix = confusion_matrix(labels_true, labels_pred) 
+    
+    accuracy = accuracy_score(labels_true, labels_pred)
+
+    print ("Accuracy = " + str(accuracy) + '/n')
+    print ("Confusion Matrix: " + str(conf_matrix) + '/n')
 
     model.close()
 
