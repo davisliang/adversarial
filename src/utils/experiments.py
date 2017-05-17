@@ -83,11 +83,12 @@ def resizeSet(images):
     return resizedImages
 
 def listOfImagesToNumpy(imageList, labelList):
-    returnArray = numpy.zeros((len(imageList),3,224,224))
+    returnArray = numpy.zeros((len(imageList),224,224, 3))
     returnLabels = numpy.zeros((len(labelList),1000))
     
     for i in range(len(imageList)):
-        returnArray[i,:,:,:]=numpy.reshape(scipy.misc.imresize(numpy.asarray(imageList[i]),(224,224,3), interp='bilinear'), (3,224,224))
+        returnArray[i,:,:,:]=numpy.reshape(scipy.misc.imresize(numpy.asarray(imageList[i]),(224,224,3),
+            interp='bilinear'), (224,224,3))
         returnLabels[i,labelList[i]] = 1
     
     
