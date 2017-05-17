@@ -15,6 +15,11 @@ from __future__ import division, print_function, absolute_import
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+from os.path import expanduser
+sys.path.insert(0, expanduser('~/adversary/src/utils'))
+
+import experiment
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
