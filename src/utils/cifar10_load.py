@@ -4,7 +4,7 @@ cifar-10 dataset related code goes here
 
 #uncomment this only when running download_cifar. Obstructs TF functionality.
 #from keras.datasets import cifar10
-import cPickle as pickle
+import pickle
 from os.path import expanduser
 """
 download cifar10 data from keras and shape result
@@ -33,12 +33,12 @@ def download_cifar():
 		
 	for i in range(len(X_train)):
 		if i % 100 == 0:
-			print "upsampling training image " + str(i)
+			print ("upsampling training image " + str(i))
 		X_train_new[i,:,:,:] = scipy.misc.imresize(X_train[i,:,:,:], [reshape_height,reshape_width,reshape_channels])
 	
 	for i in range(len(X_test)):
 		if i % 100 == 0:
-			print "upsampling testing image " + str(i)
+			print ("upsampling testing image " + str(i))
 		X_test_new[i,:,:,:] = scipy.misc.imresize(X_test[i,:,:,:], [reshape_height,reshape_width,reshape_channels])
 	
 	x = [(X_train_new, y_train_vector), (X_test_new,y_test_vector)]

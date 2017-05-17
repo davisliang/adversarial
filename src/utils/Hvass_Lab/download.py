@@ -18,7 +18,7 @@
 
 import sys
 import os
-import urllib.request
+from six.moves import urllib
 import tarfile
 import zipfile
 

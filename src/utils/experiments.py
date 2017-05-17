@@ -15,7 +15,7 @@ from scipy import ndimage
 from os.path import expanduser
 import tensorflow as tf
 from PIL import Image
-import cPickle as pickle
+import pickle
 import os
 import glob
 from numpy import random
@@ -74,8 +74,8 @@ def listOfImagesToNumpy(imageList, labelList):
     return returnArray, returnLabels
 
 def loadControl():
-    pathname_data = '~/control/images'
-    pathname_label = '~/control/labels.txt'
+    pathname_data = '~/adversary/data/images_control'
+    pathname_label = '~/adversary/data/labels_control.txt'
     
     image_list, name_list = extractData(pathname_data)
     label_list = extractLabels(pathname_label)
@@ -86,8 +86,8 @@ def loadControl():
     return images_final, labels_final
 
 def loadUniversal():
-    pathname_data = '~/universal_adv/images'
-    pathname_label = '~/universal_adv/labels.txt'
+    pathname_data = '~/adversary/data/images_universal'
+    pathname_label = '~/adversary/data/labels_universal.txt'
     
     image_list, name_list = extractData(pathname_data)
     label_list = extractLabels(pathname_label)
@@ -98,8 +98,8 @@ def loadUniversal():
     return images_final, labels_final
 
 def loadAutoTrain():
-    pathname_data = '~/auto_encoder_trainning_set/images'
-    pathname_label = '~/auto_encoder_trainning_set/labels.txt'
+    pathname_data = '~/adversary/data/images_autotrain'
+    pathname_label = '~/adversary/data/labels_autotrain.txt'
     
     image_list, name_list = extractData(pathname_data)
     label_list = extractLabels(pathname_label)
@@ -108,3 +108,4 @@ def loadAutoTrain():
     images_final, labels_final = listOfImagesToNumpy(images, label_list)
     
     return images_final, labels_final
+
