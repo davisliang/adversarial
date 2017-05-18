@@ -131,3 +131,56 @@ tasks. Deep learning uses cascades of many layers of nonlinear processing units 
   </tr>
 
 </table>
+
+# Deliverables
+
+### Build a Control Model 
+
+We decided to use a pre-trained convolutional neural network. We use the [inception v3 network](https://github.com/tensorflow/models/tree/master/inception) provided by tensorflow. Below is a visiualization of the inception v3 architecture
+
+![Inception-v3 Architecture](https://4.bp.blogspot.com/-TMOLlkJBxms/Vt3HQXpE2cI/AAAAAAAAA8E/7X7XRFOY6Xo/s1600/image03.png)
+
+The inception v3 network allows us to generate high resolution adversarail images. 
+
+Accuracy: Our control model – the inception v3 without any added adversarial mitigation – has a top 1 accuracy of 75%
+
+### Choose a Dataset
+
+We will be using a subset of the validation set of the 2012 Large Scale Visual Recognition Challenge hosted by [Imagenet](http://www.image-net.org/challenges/LSVRC/2012/nonpub-downloads).
+The original validation set contains 50,000 images across 1,000 different categories. We reduced this to 2,000 images with 2 images form each category. Below are some examples of the images from the data set.
+
+Label: Coral               |  Label: Jelly Fish        | Label:  Loom
+:-------------------------:|:-------------------------:|:------------------:
+![](http://farm1.static.flickr.com/87/280429814_d2b5216d99.jpg)  |  ![](http://i.ehow.co.uk/images/a06/85/qk/benthic-zone_-1.1-800X800.jpg) | ![](http://farm1.static.flickr.com/4/6027614_d778b6a4d5.jpg)
+
+
+### Use Adversarial Filters to Generate a Dataset of Adversarial Images
+
+One method of generating adversarial images is to apply a universal adversarial perturbation. Universal adversarial perturbations are filters which can be applied to an image to convert it into a adversial image which gets misclassified by the vast majority of networks. We took our original data of images and added one of the 6 universal filter to each of the images. We will use this dataset as one of our benchmarks for robustness. A weak network will get roughly random accuracy on the universal adversarial image data set but a network with 10% accuracy will have a ceratain level of certification, a network with 20%  accuracy will have an even higher level of certification and so on. Below are the visualizations of the universal perturbations. 
+
+![](http://www.i-programmer.info/images/stories/News/2016/Nov/A/advers2.jpg)
+
+
+### Use Gradient Ascent to Generate a Dataset of Adversarial Imaage
+
+Another method of generating adversarial images is to choose a certain label that you want your images to be categorized as. For example you might want an image of a cat to be classified as a paper towel. We use gradient ascent to generate the approriate noise, so that when we add the noise to the original image it becomes an adversarial image. We took our original data set of images and for each image we chose another category at random and computed the noise necessary to make our original image be classified as the randomnly selected category. We will generate one of these gradient adversarial datasets for each of the models we create. We have a gradient adversarial dataset for our control inception v3 network, a gradient adversarial dataset for our inception v3 network with an added autoencoder layer, and a gradient adversarial dataset for our multiclass learning network. These data sets will be used to establish a relative measure of robustness. We will test the control network on the autoencoders adversarial dataset, and the autoencoder on the controls dataset. If the autoencoder has a higher accuracy rate then the autoencoder is considered more robust than the control. Eventually we will have standardized set of networks, each with their own established level of robustness. When a customer or boss asks about the robustness of your network you can say it has level four robustness because it is more robust than the forth network in the benchmark suit. 
+Below are some examples of adversarial images generate using gradient ascent. 
+
+![](readme_images/adv_balloon.png)
+![](readme_images/adv_orca.png)
+
+### Build a Modified Inception Network which does PCA Pre-Processing
+
+PCA (Principal Component Analysis) is used to reduce the dimensionality of a matrix. Adversarial images rely on adding specificallt targeted noise to an image. By pre-processing the inputs to a network using PCA we hope to remove the adversarial noise from our input images. This is one of our proposed methods for increasing the robustness of a network. Below our some examples of original images along with the PCA version of those images.
+
+
+Original              |  PCA Verion with 99% of Varience       
+:-------------------------:|:-------------------------:
+![](readme_images/18579429_10154702481664779_1273974298_n.png)  |  ![](readme_images/18600730_10154702482644779_1634726341_n.png) 
+
+Original              |  PCA Verion with 99% of Varience       
+:-------------------------:|:-------------------------:
+![](readme_images/18622863_10154702482209779_1002029237_n.png)  |  ![](readme_images/18579322_10154702483074779_1301879580_n.png) 
+
+
+
