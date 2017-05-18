@@ -83,7 +83,7 @@ Post the code and a few images of the univerasl images next to the original alon
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Determine if the discriminator of a GAN can be used to identify adversarial inputs. Report the accuracy of the modified network compared to the control network.</td>
+    <td>Take images from the control and universal datasets along with the label text files and format the images such that they are resized using proper bilinear interpolation and collected as formatted float32 numpy arrays in tensorflow format.</td>
     <td>Week 5</td>
     <td>Davis</td>
     <td>Medium</td>
