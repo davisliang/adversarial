@@ -3,12 +3,15 @@
 # class (like "cat" or "frog") and increase the pixel values acording
 # to the negative gradient
 
-import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
 import os
 import gradient_utils as gutils
 from os.path import expanduser
+import sys
+
+sys.path.insert(0, expanduser('~/adversary/src/models'))
+sys.path.insert(0, expanduser('~/adversary/src/utils/Hvass_Lab'))
 
 # Functions and classes for loading and using the Inception model.
 import inception
@@ -55,8 +58,11 @@ with model.graph.as_default():
 # We need a Tensorflow session to execute the graph
 session = tf.Session(graph=model.graph)
 
-gutils.generate_adversarial_dataset("~/adversary/data/images_control",
-                                     "~/adversary/data/labels_control.txt",
-                                     "~/adversary/data/images_control_gradient",
+gutils.generate_adversarial_dataset("~/adversary/data/images/control",
+                                     "~/adversary/data/labels/control.txt",
+                                     "~/adversary/data/images/control_gradient",
                                      session, y_pred, resized_image, gradient,
+                                     model,
                                      pl_cls_target)
+
+model.close()

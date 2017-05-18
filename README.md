@@ -62,91 +62,72 @@ tasks. Deep learning uses cascades of many layers of nonlinear processing units 
     <td>Priority</td>
   </tr>
   <tr>
-    <td>Build a simple cifar-10 conv net. 
-Post the code and report the accuracy of the network along with a few pictures and the network's prediction</td>
+    <td>Write Inception Net. Report network accuracy on test set with visualizations of network predictions. Post the code.</td>
     <td>Week 4</td>
     <td>Patrick</td>
     <td>Low</td>
   </tr>
   <tr>
-    <td>Build a generative adversarial network.
-Post the code and report the accuracy of the network.
-Augment cifar-10 test set with universal adversarial perturbations.</td>
+    <td>Build pipeline for adding universal perturbations to a dataset. Show visualizations of the process.
+</td>
     <td>Week 4</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Modify the cifar-10 conv net so it generates adversarial images.
-Upload a library of adversarial images including the original image, the modified version of the image and what the network predicted.</td>
+    <td>Find a dataset to use for our experiments. Provide reasons for choosing the dataset. </td>
     <td>Week 5</td>
     <td>Patrick</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Determine if the discriminator of a GAN can be used to identify adversarial inputs. Report the accuracy of the modified network compared to the control network.</td>
+    <td>Preprocess the dataset to fit properly within Inception Net framework. Post code.</td>
     <td>Week 5</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Generate a test suit of adversarial images and write the code for comparing the robustness of two network. Write up a report explaining why this is a valid method for measuring relative robustness.</td>
+    <td>Generate Universal Adversarial Images using preprocessed dataset. Write code for getting accuracy of a pre-trained model given some input and labels. </td>
     <td>Week 6</td>
     <td>Patrick</td>
     <td>High</td>
   </tr>
   <tr>
-    <td>Write the code for one type of multi-task learning network. Post the code and report the network accuracy.</td>
+    <td>Write the autoencoder, convolutional autoencoder, and PCA models. Create three datasets by running the adversarial images through the models to use as input for experiments. </td>
     <td>Week 6</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Write the code for using multiple downsampled versions of an images as input to a classifier. Post the code and report accuracy.</td>
-    <td>Week 7</td>
-    <td>Patrick</td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>Write the code for another type of multi-task learning network. Post the code and report the accuracy.</td>
+    <td>Run experiments on auto-encoder, convolutional auto-encoder, and pca models and report accuracy using Patrick's tester code. Write the MTL model. </td>
     <td>Week 7</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Run experiments to see if downsampling improves a networks robustness. Report the accuracy of the modified network and the control network.</td>
+    <td>Formalize method for measuring adversarial robustness. Work on digesting mathematical formalization of our methods of increasing adversarial robustness.</td>
     <td>Week 8</td>
     <td>Patrick</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Run experiments to see if multi-task learning improves a networks robustness. Report the accuracy of the modified network and the control network.</td>
+    <td>Run experiments to see if multi-task learning improves a networks robustness. Report accuracy. </td>
     <td>Week 8</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>See how well these techniques generalize across datasets and across network architectures. Report the results of the experiments done on other networks and other datasets.</td>
+    <td> REPORT WORK: See how well these techniques generalize across datasets and across network architectures. Report the results of the experiments done on other networks and other datasets.</td>
     <td>Week 9</td>
-    <td>Patrick</td>
+    <td>Patrick and Davis</td>
     <td>Medium</td>
   </tr>
+
   <tr>
-    <td>See how well these techniques generalize across datasets and across network architectures. Report the results of the experiments done on other networks and other datasets.</td>
-    <td>Week 9</td>
-    <td>Davis</td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>Make an outline what what he intends to write about and write a paragraph for each source he intends to use describing how it relates to the paper.</td>
+    <td>Finalize Video Presentation Stuff.</td>
     <td>Week 10</td>
-    <td>Patrick</td>
+    <td>Patrick and Davis</td>
     <td>High</td>
   </tr>
-  <tr>
-    <td>Make an outline what what he intends to write about and write a paragraph for each source he intends to use describing how it relates to the paper.</td>
-    <td>Week 10</td>
-    <td>Davis</td>
-    <td>High</td>
-  </tr>
+
 </table>

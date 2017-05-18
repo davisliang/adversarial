@@ -10,10 +10,15 @@ import random
 import cv2
 from os.path import expanduser
 
+import sys 
+sys.path.insert(0, expanduser('~/adversary/src/models'))
+sys.path.insert(0, expanduser('~/adversary/src/utils/Hvass_Lab'))
+
 # Functions and classes for loading and using the Inception model.
 import inception
 
 def find_adversary_noise(session, y_pred, resized_image, gradient,
+                         model,
                          pl_cls_target,
 						 image_path, cls_target, noise_limit=3.0,
                          required_score=0.99, max_iterations=100):
@@ -27,9 +32,6 @@ def find_adversary_noise(session, y_pred, resized_image, gradient,
     required_score: Stop when target-class score reaches this.
     max_iterations: Max number of optimization iterations to perform.
     """
-    
-    #Load the Inception model
-    model = inception.Inception()
 
     # Create a feed-dict with the image.
     feed_dict = model._create_feed_dict(image_path=image_path)
@@ -148,7 +150,7 @@ def find_adversary_noise(session, y_pred, resized_image, gradient,
 
 def generate_adversarial_dataset(data_directory, label_file, dest_directory,
                                 session, y_pred, resized_image,
-                                 gradient, pl_cls_target):
+                                 gradient, model, pl_cls_target):
     """ This method takes in a directory of images and generates an adversarial
     image for each of the input images. It chooses a target class at random. """
     labels = experiments.extractLabels(label_file)
@@ -164,6 +166,7 @@ def generate_adversarial_dataset(data_directory, label_file, dest_directory,
                                         y_pred=y_pred,
                                         resized_image=resized_image,
                                         gradient=gradient,
+                                        model=model,
                                         pl_cls_target=pl_cls_target,
                                         image_path=expanduser(data_directory)
                                         + '/' + image_names[i],
@@ -254,7 +257,7 @@ def plot_images(image, noise, noisy_image,
     plt.show()
 
 
-def adversary_example(session, y_pred, resized_image, gradient, pl_cls_target,
+def adversary_example(session, y_pred, resized_image, gradient, model, pl_cls_target,
         image_path, cls_target,
         noise_limit, required_score):
     """
@@ -274,6 +277,7 @@ def adversary_example(session, y_pred, resized_image, gradient, pl_cls_target,
                     y_pred=ypred,
                     resized_image=resized_image,
                     gradient=gradient,
+                    model=model,
                     pl_cls_target=pl_cls_target,
                     image_path=image_path,
                     cls_target=cls_target,
