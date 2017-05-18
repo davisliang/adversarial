@@ -13,23 +13,14 @@ import numpy
 import scipy
 from scipy import ndimage
 from os.path import expanduser
-import tensorflow as tf
 from PIL import Image
 import pickle
 import os
-import glob
 from numpy import random
-import matplotlib.pyplot as plt
 import re
 
-import sys
-sys.path.insert(0, expanduser('~/adversary/src/models'))
-sys.path.insert(0, expanduser('~/TensorFlow-Tutorials'))
 
 
-import tf_builder
-import cifar10_load
-import tf_utils
 
 # Converets the text to an int if it is an number
 def atoi(text):
@@ -72,6 +63,9 @@ def extractData(directoryname):
             if(image.mode == 'RGB'):
                 images.append(image.copy())
                 images_names.append(imagefile)
+            else:
+                images.append(image.convert('RGB').copy())
+                images_names.append(imagefile)
             image.close()
     
     return images, images_names
@@ -94,39 +88,17 @@ def listOfImagesToNumpy(imageList, labelList):
     
     return returnArray, returnLabels
 
-def loadControl():
-    pathname_data = '~/adversary/data/images_control'
-    pathname_label = '~/adversary/data/labels_control.txt'
+def pickleDataset(image_dir, labels_f, pickle_name):
+    images_path = expanduser("~/adversary/data/images/" + image_dir)
+    label_path = expanduser("~/adversary/data/labels/" + labels_f)
     
-    image_list, name_list = extractData(pathname_data)
-    label_list = extractLabels(pathname_label)
+    image_list, name_list = extractData(images_path)
+    label_list = extractLabels(label_path)
     images = resizeSet(image_list)
     
     images_final, labels_final = listOfImagesToNumpy(images, label_list)
-    
-    return images_final, labels_final
 
-def loadUniversal():
-    pathname_data = '~/adversary/data/images_universal'
-    pathname_label = '~/adversary/data/labels_universal.txt'
-    
-    image_list, name_list = extractData(pathname_data)
-    label_list = extractLabels(pathname_label)
-    images = resizeSet(image_list)
-    
-    images_final, labels_final = listOfImagesToNumpy(images, label_list)
-    
-    return images_final, labels_final
+    tup = [images_final, labels_final]
 
-def loadAutoTrain():
-    pathname_data = '~/adversary/data/images_autotrain'
-    pathname_label = '~/adversary/data/labels_autotrain.txt'
-    
-    image_list, name_list = extractData(pathname_data)
-    label_list = extractLabels(pathname_label)
-    images = resizeSet(image_list)
-    
-    images_final, labels_final = listOfImagesToNumpy(images, label_list)
-    
-    return images_final, labels_final
-
+    pickle.dump( tup, open(expanduser(~/adversary/data/pickles/ + '/' + pickle_name), "wb" ) )
+    return

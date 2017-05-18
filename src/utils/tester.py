@@ -15,35 +15,28 @@ sys.path.insert(0, expanduser('~/adversary/src/models'))
 sys.path.insert(0, expanduser('~/adversary/src/utils/Hvass_Lab'))
 import inception
 
-def test_on_adv_set():
+def test_dataset(pickle_f):
     inception.maybe_download()
     model = inception.Inception()
 
-    images_control, labels_control = pickle.load(
-                open( expanduser("~/adversary/data/control.p"), "rb"))
+    images, labels = pickle.load(
+                open( expanduser("~/adversary/data/pickles/" + pickle_f), "rb"))
 
-    images_uni, labels_uni = pickle.load(
-                open( expanduser("~/adversary/data/universal.p"), "rb"))
-
-    print (images_uni.shape)
-    print (labels_uni[:10])
-
-    pred = inception.process_images(fn=model.classify, images=images_uni)
+    pred = inception.process_images(fn=model.classify, images=images)
     
     #picks the category with the highest score
-    labels_true = numpy.argmax(labels_uni, axis=1)
+    labels_true = numpy.argmax(labels, axis=1)
     labels_pred = numpy.argmax(pred, axis=1)
-
-    print (labels_pred[:10])
     
     conf_matrix = confusion_matrix(labels_true, labels_pred) 
     
     accuracy = accuracy_score(labels_true, labels_pred)
-
-    print ("Accuracy = " + str(accuracy) + '/n')
-    print ("Confusion Matrix: " + str(conf_matrix) + '/n')
+    
+    f = open(expanduser("~/adversary/data/results/" + pickle_f), 'w')
+    f.write("Accuracy =  " + str(accuracy) + '\n')  # python will convert \n to os.linesep
+    f.write("Confusion Matrix: " + str(conf_matrix) + '\n')
+    f.close()
 
     model.close()
 
-    
 
