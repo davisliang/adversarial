@@ -21,21 +21,22 @@ sys.path.insert(0, expanduser('~/adversary/src/utils'))
 
 import experiment
 
-# Import MNIST data
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
+# Import data
+data, labels = experiment.loadControl()
+data = experiment.flatten(data)
 
 # Parameters
-learning_rate = 0.001
+learning_rate = 0.1
 training_epochs = 200
 batch_size = 128
 display_step = 1
 examples_to_show = 10
+num_train_examples = len(data)
 
 # Network Parameters
-n_hidden_1 = 256 # 1st layer num features
+n_hidden_1 = 1024 # 1st layer num features
 
-n_input = 784 # MNIST data input (img shape: 28*28)
+n_input = 224*224*3 # MNIST data input (img shape: 28*28)
 
 # tf Graph input (only pictures)
 X = tf.placeholder("float", [None, n_input])
@@ -84,12 +85,12 @@ init = tf.global_variables_initializer()
 # Launch the graph
 with tf.Session() as sess:
     sess.run(init)
-    total_batch = int(mnist.train.num_examples/batch_size)
+    total_batch = int(num_train_examples/batch_size)
     # Training cycle
     for epoch in range(training_epochs):
         # Loop over all batches
         for i in range(total_batch):
-            batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+            batch_xs, batch_ys = data[i*total_batch:(i+1)*total_batch,:], labels[i*total_batch:(i+1)*total_batch]
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={X: batch_xs})
         # Display logs per epoch step
@@ -101,12 +102,12 @@ with tf.Session() as sess:
 
     # Applying encode and decode over test set
     encode_decode = sess.run(
-        y_pred, feed_dict={X: mnist.test.images[:examples_to_show]})
+        y_pred, feed_dict={X: data[:examples_to_show,:]})
     # Compare original images with their reconstructions
     f, a = plt.subplots(2, 10, figsize=(10, 2))
     for i in range(examples_to_show):
-        a[0][i].imshow(np.reshape(mnist.test.images[i], (28, 28)))
-        a[1][i].imshow(np.reshape(encode_decode[i], (28, 28)))
+        a[0][i].imshow(np.reshape(data[i,:], (224, 224, 3)))
+        a[1][i].imshow(np.reshape(encode_decode[i], (224, 224, 3)))
     f.show()
     plt.draw()
     plt.waitforbuttonpress()

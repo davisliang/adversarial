@@ -99,3 +99,16 @@ def loadUniversal():
     images_final, labels_final = listOfImagesToNumpy(images, label_list)
     
     return images_final, labels_final
+
+def flatten(input):
+    flat_size = input.shape[1]*input.shape[2]*input.shape[3]
+    return_arr = numpy.zeros((len(input),flat_size))
+    for i in range(len(input)):
+        return_arr[i,:] = numpy.reshape(input[i], (flat_size))
+    return return_arr
+
+def unflatten(input):
+    return_arr = numpy.zeros((len(input),224,224,3))
+    for i in range(len(input)):
+        return_arr[i,:,:,:] = numpy.reshape(input[i], (224,224,3))
+    return return_arr
