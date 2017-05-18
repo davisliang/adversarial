@@ -62,23 +62,22 @@ tasks. Deep learning uses cascades of many layers of nonlinear processing units 
     <td>Priority</td>
   </tr>
   <tr>
-    <td>Build a simple cifar-10 conv net. 
+    <td>Get a working model of inception net. 
 Post the code and report the accuracy of the network along with a few pictures and the network's prediction</td>
     <td>Week 4</td>
     <td>Patrick</td>
     <td>Low</td>
   </tr>
   <tr>
-    <td>Build a generative adversarial network.
-Post the code and report the accuracy of the network.
-Augment cifar-10 test set with universal adversarial perturbations.</td>
+    <td>Build a pipeline to add the universal adversarial filters to a dataset of images.
+Post the code and a few images of the univerasl images next to the original along with filter.
+</td>
     <td>Week 4</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Modify the cifar-10 conv net so it generates adversarial images.
-Upload a library of adversarial images including the original image, the modified version of the image and what the network predicted.</td>
+    <td>Find a data set to use as our geniue pig. Post a description of what the data set is composed of and why we choose it. </td>
     <td>Week 5</td>
     <td>Patrick</td>
     <td>Medium</td>
@@ -96,13 +95,13 @@ Upload a library of adversarial images including the original image, the modifie
     <td>High</td>
   </tr>
   <tr>
-    <td>Write the code for one type of multi-task learning network. Post the code and report the network accuracy.</td>
+    <td>Write the code for an auto-encoder, a convolutional auto-encoder, and pca. Post the code and create the dataset.</td>
     <td>Week 6</td>
     <td>Davis</td>
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Write the code for using multiple downsampled versions of an images as input to a classifier. Post the code and report accuracy.</td>
+    <td>Generate datasets for images that have gone through the universal filters and for images that have been modified using gradient ascent.</td>
     <td>Week 7</td>
     <td>Patrick</td>
     <td>Medium</td>
@@ -114,7 +113,7 @@ Upload a library of adversarial images including the original image, the modifie
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Run experiments to see if downsampling improves a networks robustness. Report the accuracy of the modified network and the control network.</td>
+    <td>Write a report describing the mathmatics behind measuring the robustness of network</td>
     <td>Week 8</td>
     <td>Patrick</td>
     <td>Medium</td>
