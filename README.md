@@ -77,7 +77,7 @@ Post the code and a few images of the univerasl images next to the original alon
     <td>Medium</td>
   </tr>
   <tr>
-    <td>Find a data set to use as our geniue pig. Post a description of what the data set is composed of and why we choose it. </td>
+    <td>Find a data set to use as our guinea pig. Post a description of what the data set is composed of and why we choose it. </td>
     <td>Week 5</td>
     <td>Patrick</td>
     <td>Medium</td>
