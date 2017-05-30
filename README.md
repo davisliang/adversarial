@@ -142,7 +142,7 @@ We decided to use a pre-trained convolutional neural network. We use the [incept
 
 The inception v3 network allows us to generate high resolution adversarail images. 
 
-# Accuracy of Control Model
+##### Accuracy of Control Model
 Accuracy: 75.85%
 
 
@@ -162,7 +162,7 @@ One method of generating adversarial images is to apply a universal adversarial 
 
 ![](http://www.i-programmer.info/images/stories/News/2016/Nov/A/advers2.jpg)
 
-# Accuracy of Control Model on Univerasl Adversarial Images
+##### Accuracy of Control Model on Univerasl Adversarial Images
 Accuracy: 55.25%
 
 
@@ -174,7 +174,7 @@ Below are some examples of adversarial images generate using gradient ascent.
 ![](readme_images/adv_balloon.png)
 ![](readme_images/adv_orca.png)
 
-# Accuracy of Control Model on Gradient Adversarial Images
+##### Accuracy of Control Model on Gradient Adversarial Images
 Accuracy: 57.55%
 
 ### Build a Modified Inception Network Which Does PCA Pre-Processing
@@ -190,7 +190,7 @@ Original              |  PCA Verion with 99% of Varience
 :-------------------------:|:-------------------------:
 ![](readme_images/18622863_10154702482209779_1002029237_n.png)  |  ![](readme_images/18579322_10154702483074779_1301879580_n.png) 
 
-# Accuracy After Doing PCA
+##### Accuracy After Doing PCA
 Accuracy on unmodified images: 23.35%
 Accuracy on universal images: 22.10%
 
