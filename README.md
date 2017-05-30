@@ -142,7 +142,6 @@ We decided to use a pre-trained convolutional neural network. We use the [incept
 
 The inception v3 network allows us to generate high resolution adversarail images. 
 
-Accuracy: Our control model – the inception v3 without any added adversarial mitigation – has a top 1 accuracy of 75%
 
 ### Choose a Dataset
 
