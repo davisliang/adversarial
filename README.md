@@ -142,6 +142,9 @@ We decided to use a pre-trained convolutional neural network. We use the [incept
 
 The inception v3 network allows us to generate high resolution adversarail images. 
 
+# Accuracy of Control Model
+Accuracy: 75.85%
+
 
 ### Choose a Dataset
 
@@ -159,8 +162,11 @@ One method of generating adversarial images is to apply a universal adversarial 
 
 ![](http://www.i-programmer.info/images/stories/News/2016/Nov/A/advers2.jpg)
 
+# Accuracy of Control Model on Univerasl Adversarial Images
+Accuracy: 55.25%
 
-### Use Gradient Ascent to Generate a Dataset of Adversarial Imaage
+
+### Use Gradient Ascent to Generate a Dataset of Adversarial Images
 
 Another method of generating adversarial images is to choose a certain label that you want your images to be categorized as. For example you might want an image of a cat to be classified as a paper towel. We use gradient ascent to generate the approriate noise, so that when we add the noise to the original image it becomes an adversarial image. We took our original data set of images and for each image we chose another category at random and computed the noise necessary to make our original image be classified as the randomnly selected category. We will generate one of these gradient adversarial datasets for each of the models we create. We have a gradient adversarial dataset for our control inception v3 network, a gradient adversarial dataset for our inception v3 network with an added autoencoder layer, and a gradient adversarial dataset for our multiclass learning network. These data sets will be used to establish a relative measure of robustness. We will test the control network on the autoencoders adversarial dataset, and the autoencoder on the controls dataset. If the autoencoder has a higher accuracy rate then the autoencoder is considered more robust than the control. Eventually we will have standardized set of networks, each with their own established level of robustness. When a customer or boss asks about the robustness of your network you can say it has level four robustness because it is more robust than the forth network in the benchmark suit. 
 Below are some examples of adversarial images generate using gradient ascent. 
@@ -168,7 +174,10 @@ Below are some examples of adversarial images generate using gradient ascent.
 ![](readme_images/adv_balloon.png)
 ![](readme_images/adv_orca.png)
 
-### Build a Modified Inception Network which does PCA Pre-Processing
+# Accuracy of Control Model on Gradient Adversarial Images
+Accuracy: 57.55%
+
+### Build a Modified Inception Network Which Does PCA Pre-Processing
 
 PCA (Principal Component Analysis) is used to reduce the dimensionality of a matrix. Adversarial images rely on adding specificallt targeted noise to an image. By pre-processing the inputs to a network using PCA we hope to remove the adversarial noise from our input images. This is one of our proposed methods for increasing the robustness of a network. Below our some examples of original images along with the PCA version of those images.
 
@@ -180,6 +189,20 @@ Original              |  PCA Verion with 99% of Varience
 Original              |  PCA Verion with 99% of Varience       
 :-------------------------:|:-------------------------:
 ![](readme_images/18622863_10154702482209779_1002029237_n.png)  |  ![](readme_images/18579322_10154702483074779_1301879580_n.png) 
+
+# Accuracy After Doing PCA
+Accuracy on unmodified images: 23.35%
+Accuracy on universal images: 22.10%
+
+### Build a Modified Inception Network Which Adds Random Noise Before Classifying
+
+Adversarial Images add minor variations to the image's pixel values to push the image as quickly as possible to a different classification space (for example an image could be pushed from the dog classification space to the cat classification space). To prevent the adversarial perturbations from altering a human's perception of the image, the perturbations must remain small (changing each pixel by less than 5). Adding random noise to the image before classification causes the image to make random move in classification space. Adversarial images tend to exist in the sharp protrusions of a classification space so moving by moving randomnly we are more likely to move back into the correct category than to move further away. See the following diagrams for a visiualization. 
+
+Take a simplified example of a classifier that takes two inputs – height and average number of seeds – and uses that to classify a plant as an orchid or not an orchid.
+
+With a deep enough network and noisy enough data you could get the following abnormal classification space:
+
+
 
 
 
