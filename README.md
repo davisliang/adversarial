@@ -145,6 +145,9 @@ The inception v3 network allows us to generate high resolution adversarail image
 ##### Accuracy of Control Model
 Accuracy: 75.85%
 
+##### Confusion Matrix
+
+![](adversary/Results/Confusion_Matrices/control.png)
 
 ### Choose a Dataset
 
@@ -164,6 +167,10 @@ One method of generating adversarial images is to apply a universal adversarial 
 
 ##### Accuracy of Control Model on Univerasl Adversarial Images
 Accuracy: 55.25%
+
+##### Confusion Matrix
+
+![](Results/Confusion_Matrices/control.png)
 
 
 ### Use Gradient Ascent to Generate a Dataset of Adversarial Images
