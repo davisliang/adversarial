@@ -220,6 +220,11 @@ Accuracy of Noisy Models on Universal Adversarial Images | Robustness of Noisy M
 :----------------------------------------:| :-----------------------------------------------:|
 ![](readme_images/Universal_Accuracy.png)  | ![](readme_images/Universal_Robustness.png) |
 
+Accuracy of Noisy Model on Gradient Adversarial Images of Control Model | Accuracy of Control Model on Gradient Adverarial Images of Noisy Model |
+:--------------------------------:|:------------------------: |
+Accuracy: 55.85% | Accuracy: ?????? |
+
+
 ### Build a Modified Inception Network Which Downsamples the Input Images
 
 ##### Motivation
