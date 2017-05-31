@@ -191,19 +191,29 @@ Original              |  PCA Verion with 99% of Varience
 ![](readme_images/18622863_10154702482209779_1002029237_n.png)  |  ![](readme_images/18579322_10154702483074779_1301879580_n.png) 
 
 ##### Accuracy After Doing PCA
-Accuracy on unmodified images: 23.35%
+Accuracy on original images: 23.35%
 
 Accuracy on universal adversarial images: 22.10%
+Universal Robustness : 0.9465
 
 ### Build a Modified Inception Network Which Adds Random Noise Before Classifying
 
 Adversarial Images add minor variations to the image's pixel values to push the image as quickly as possible to a different classification space (for example an image could be pushed from the dog classification space to the cat classification space). To prevent the adversarial perturbations from altering a human's perception of the image, the perturbations must remain small (changing each pixel by less than 5). Adding random noise to the image before classification causes the image to make random move in classification space. Adversarial images tend to exist in the sharp protrusions of a classification space so moving by moving randomnly we are more likely to move back into the correct category than to move further away. See the following diagrams for a visiualization. 
 
-Take a simplified example of a classifier that takes two inputs – height and average number of seeds – and uses that to classify a plant as an orchid or not an orchid.
+Take a simplified example of a classifier that takes two inputs – height and average number of seeds – and uses that to classify a plant as an orchid or not an orchid. Here an orchid is represented as blue and a not orchid is represented as orange. 
 
-With a deep enough network and noisy enough data you could get the following abnormal classification space:
+With a deep enough network and noisy enough data you could get the following abnormal classification space: 
+
+![](readme_images/Weird_Space.png)
+
+The point circled in red is the closet blue area to the surrounding orange area, so many adversarial examples would be drawn to that point. Adversarial examples look for the shortest distance they have to travel to be classified as the other category. However if were to move in a random direction from that point we are more likely to return to the orange category than to move further into the blue space. This is the rational behind adding random noise. However, by the bigger step we take in a random direction the more likely we are to move into another classification space. Especially when we have many different categories. We did a grid search to find the ideal trade off between an increase in adversarial robustness and a loss in accuracy. 
+
+##### Accuracy and Robustness After Adding Random Noise
+Accuracy of Noisy Models on Original Images | 
+:-------------------------:|
+![](readme_images/Noisy_Model_on_unperturbed.png)  |
 
 
-
-
-
+Accuracy of Noisy Models on Universal Adversarial Images | Robustness of Noisy Models on Universal Adversarial Images |
+:----------------------------------------:| :-----------------------------------------------:|
+![](readme_images/Universal_Accuracy.png)  | ![](readme_images/Universal_Robustness.png) |
