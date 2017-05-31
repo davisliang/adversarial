@@ -179,6 +179,7 @@ Accuracy: 57.55%
 
 ### Build a Modified Inception Network Which Does PCA Pre-Processing
 
+##### Motivation
 PCA (Principal Component Analysis) is used to reduce the dimensionality of a matrix. Adversarial images rely on adding specificallt targeted noise to an image. By pre-processing the inputs to a network using PCA we hope to remove the adversarial noise from our input images. This is one of our proposed methods for increasing the robustness of a network. Below our some examples of original images along with the PCA version of those images.
 
 
@@ -198,6 +199,7 @@ Universal Robustness : 0.9465
 
 ### Build a Modified Inception Network Which Adds Random Noise Before Classifying
 
+##### Motivation
 Adversarial Images add minor variations to the image's pixel values to push the image as quickly as possible to a different classification space (for example an image could be pushed from the dog classification space to the cat classification space). To prevent the adversarial perturbations from altering a human's perception of the image, the perturbations must remain small (changing each pixel by less than 5). Adding random noise to the image before classification causes the image to make random move in classification space. Adversarial images tend to exist in the sharp protrusions of a classification space so moving by moving randomnly we are more likely to move back into the correct category than to move further away. See the following diagrams for a visiualization. 
 
 Take a simplified example of a classifier that takes two inputs – height and average number of seeds – and uses that to classify a plant as an orchid or not an orchid. Here an orchid is represented as blue and a not orchid is represented as orange. 
@@ -217,3 +219,23 @@ Accuracy of Noisy Models on Original Images |
 Accuracy of Noisy Models on Universal Adversarial Images | Robustness of Noisy Models on Universal Adversarial Images |
 :----------------------------------------:| :-----------------------------------------------:|
 ![](readme_images/Universal_Accuracy.png)  | ![](readme_images/Universal_Robustness.png) |
+
+### Build a Modified Inception Network Which Downsamples the Input Images
+
+##### Motivation
+Another way to reduce the dimesionality of the input images is to downsample. Downsampling reduces a 1,000 x 1,000 pixel image to some smaller n x n pixel image and then expands it back to a 1,000 x 1,000 pixel image again. This blurs the image which theorectically gets rid of the minor adversarial perturbations.
+
+##### Accuracy
+
+Downsampling by 50%                                | Downsampling by 75% |
+:------------------------------------------------: | :-----------------: |
+Accuracy on original images: 62.95%                | Accuracy on original images: 70.45% |
+Accuracy on universal adversarial images: 54.30%   | Accuracy on universal adversarial images: 53.70% |
+Robustness of Downsampling by 50% : 0.8625          | Robustness of Downsampling by 50% : 0.7622 |
+
+  
+
+
+
+
+
