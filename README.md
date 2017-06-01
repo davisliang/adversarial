@@ -195,6 +195,7 @@ Accuracy: 57.55%
 ##### Motivation
 PCA (Principal Component Analysis) is used to reduce the dimensionality of a matrix. Adversarial images rely on adding specificallt targeted noise to an image. By pre-processing the inputs to a network using PCA we hope to remove the adversarial noise from our input images. This is one of our proposed methods for increasing the robustness of a network. Below our some examples of original images along with the PCA version of those images.
 
+#### Examples of Images
 
 Original              |  PCA Verion with 99% of Varience       
 :-------------------------:|:-------------------------:
@@ -267,6 +268,7 @@ On Unperturbed Images              |  On Universal Adversarial Images |
 
 ##### Motivation
 Another way to reduce the dimesionality of the input images is to downsample. Downsampling reduces a 1,000 x 1,000 pixel image to some smaller n x n pixel image and then expands it back to a 1,000 x 1,000 pixel image again. This blurs the image which theorectically gets rid of the minor adversarial perturbations.
+
 
 ##### Accuracy
 
