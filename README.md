@@ -233,7 +233,7 @@ The point circled in red is the closet blue area to the surrounding orange area,
 
 Unperturbed Images         |  Unperturbed Images with Noise     
 :-------------------------:|:-------------------------:
-![](readme_images/unperturbed1.JPEG)  |  ![](readme_images/unperturbed_noisy_1.JPEG) 
+![](readme_images/unperturbed1.JPEG)  |  ![](readme_images/unpuerturbed_noisy_1.JPEG) 
 
 Universal Adversarial Images |  Universal Adversarial Images with Noise      
 :-------------------------:|:-------------------------:
