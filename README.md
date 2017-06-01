@@ -147,7 +147,7 @@ Accuracy: 75.85%
 
 ##### Confusion Matrix
 
-![](adversary/Results/Confusion_Matrices/control.png)
+![](Results/Confusion_Matrices/control.png)
 
 ### Choose a Dataset
 
@@ -170,7 +170,7 @@ Accuracy: 55.25%
 
 ##### Confusion Matrix
 
-![](Results/Confusion_Matrices/control.png)
+![](Results/Confusion_Matrices/universal.png)
 
 
 ### Use Gradient Ascent to Generate a Dataset of Adversarial Images
@@ -183,6 +183,12 @@ Below are some examples of adversarial images generate using gradient ascent.
 
 ##### Accuracy of Control Model on Gradient Adversarial Images
 Accuracy: 57.55%
+
+##### Confusion Matrix
+
+![](Results/Confusion_Matrices/gradient.png)
+
+
 
 ### Build a Modified Inception Network Which Does PCA Pre-Processing
 
@@ -204,6 +210,11 @@ Accuracy on original images: 23.35%
 Accuracy on universal adversarial images: 22.10%
 Universal Robustness : 0.9465
 
+##### Confusion Matrix
+On Unperturbed Images              |  On Universal Adversarial Images |      
+:-------------------------:|:-------------------------:|
+![](Results/Confusion_Matrices/control_pca.png) | ![](Results/Confusion_Matrices/data_universal.png)
+
 ### Build a Modified Inception Network Which Adds Random Noise Before Classifying
 
 ##### Motivation
@@ -211,11 +222,26 @@ Adversarial Images add minor variations to the image's pixel values to push the 
 
 Take a simplified example of a classifier that takes two inputs – height and average number of seeds – and uses that to classify a plant as an orchid or not an orchid. Here an orchid is represented as blue and a not orchid is represented as orange. 
 
-With a deep enough network and noisy enough data you could get the following abnormal classification space: 
+Take the following abnormal classification space: 
 
 ![](readme_images/Weird_Space.png)
 
 The point circled in red is the closet blue area to the surrounding orange area, so many adversarial examples would be drawn to that point. Adversarial examples look for the shortest distance they have to travel to be classified as the other category. However if were to move in a random direction from that point we are more likely to return to the orange category than to move further into the blue space. This is the rational behind adding random noise. However, by the bigger step we take in a random direction the more likely we are to move into another classification space. Especially when we have many different categories. We did a grid search to find the ideal trade off between an increase in adversarial robustness and a loss in accuracy. 
+
+#### Examples of Images
+
+Unperturbed Images         |  Unperturbed Images with Noise     
+:-------------------------:|:-------------------------:
+![](readme_images/unperturbed1.JPEG)  |  ![](readme_images/unperturbed_noisy_1.JPEG) 
+
+Universal Adversarial Images |  Universal Adversarial Images with Noise      
+:-------------------------:|:-------------------------:
+![](readme_images/universal_1.JPEG)  |  ![](readme_images/universal_noisy_1.JPEG) 
+
+Gradient Adversarial Images |  Gradient Adversarial Images with Noise      
+:-------------------------:|:-------------------------:
+![](readme_images/gradient_1.JPEG)  |  ![](readme_images/gradient_noisy_1.JPEG)
+
 
 ##### Accuracy and Robustness After Adding Random Noise
 Accuracy of Noisy Models on Original Images | 
@@ -231,6 +257,11 @@ Accuracy of Noisy Model on Gradient Adversarial Images of Control Model | Accura
 :--------------------------------:|:------------------------: |
 Accuracy: 55.85% | Accuracy: ?????? |
 
+##### Confusion Matrix
+On Unperturbed Images              |  On Universal Adversarial Images |      
+:-------------------------:|:-------------------------:|
+![](Results/Confusion_Matrices/control_noisy_30.png) | ![](Results/Confusion_Matrices/universal_noisy_30.png)
+
 
 ### Build a Modified Inception Network Which Downsamples the Input Images
 
@@ -244,6 +275,12 @@ Downsampling by 50%                                | Downsampling by 75% |
 Accuracy on original images: 62.95%                | Accuracy on original images: 70.45% |
 Accuracy on universal adversarial images: 54.30%   | Accuracy on universal adversarial images: 53.70% |
 Robustness of Downsampling by 50% : 0.8625          | Robustness of Downsampling by 50% : 0.7622 |
+
+
+##### Confusion Matrix
+On Unperturbed Images              |  On Universal Adversarial Images |      
+:-------------------------:|:-------------------------:|
+![](Results/Confusion_Matrices/control_75.png) | ![](Results/Confusion_Matrices/universal_75.png)
 
   
 
